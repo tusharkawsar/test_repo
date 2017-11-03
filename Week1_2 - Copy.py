@@ -1,5 +1,6 @@
 import numpy as np
 import scipy as sp
+# This is a comment
 
 weights = {'node_0_0': np.array([2,4]),
            'node_0_1': np.array([4, -5]),
