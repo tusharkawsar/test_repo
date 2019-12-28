@@ -54,27 +54,3 @@ len(fruits)
 2 in my_tuple
 2 in my_set
 'apple' in fruits
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
