@@ -37,7 +37,8 @@ l = s.split(' ') # reverse of join
 d = {'name':['john', 'amanda', 'rick'], 'age':[35,29,19]}
 #print(list(d.items()))
 D = pd.DataFrame(d)
-D['name'] = D['name'].str.capitalize()
+D['name'] = D['name'].str.capitalize() # a DF column is not a string by 
+#default, but can be made into a string
 print(D)
 
 
