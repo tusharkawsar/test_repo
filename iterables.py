@@ -74,6 +74,6 @@ for item in characters: # Prints only the column names, not data!
 result = characters.iterrows()
 for index,series in result:
     print(index, series)
-result2 = characters.iteritems()
-for columnname, Series in result2:
+result2 = characters.iteritems() # Separate columns and their names
+for columnname, Series in result2: # Each column has all rows for that columns and row names/headers
     print('column=',columnname,'\n series=', Series)
