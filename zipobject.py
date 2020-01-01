@@ -26,6 +26,7 @@ turtle_masks = [('Raphael','red'), ('Michelangelo','orange'),
                 ('Leonardo','blue'), ('Donatello','purple')] # This list is in zip style already
 #result = zip(turtle_masks) # Just zipped it but the output will be almost same
 result = zip(*turtle_masks) # Now the output will be different
+# Unzipping separates a list of tuples into two mixed tuples
 print(type(result))
 for items in result:print (items)
 print(result)

@@ -51,6 +51,10 @@ list(enumerate(villains))
 set(enumerate(villains))
 # String enumerator is useful to return both character and position
 
+my_list = ['apple', 'banana', 'grapes', 'pear']
+for c, value in enumerate(my_list, 1): # The second entry is the starting index and is placed on the LEFT
+    print(c, value)
+
 """ How to know if we del with an Iterable / Generate Iterator from Iterator"""
 interval_iter = iter(interval)
 interval_iter # will print an iterator object if the original obejct was iterable
