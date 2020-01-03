@@ -25,7 +25,7 @@ print(len(list(result)))
 turtle_masks = [('Raphael','red'), ('Michelangelo','orange'),
                 ('Leonardo','blue'), ('Donatello','purple')] # This list is in zip style already
 #result = zip(turtle_masks) # Just zipped it but the output will be almost same
-result = zip(*turtle_masks) # Now the output will be different
+result = zip(*turtle_masks) # Now the output will be different - first elements together and second elements together
 # Unzipping separates a list of tuples into two mixed tuples
 print(type(result))
 for items in result:print (items)
@@ -51,7 +51,19 @@ import pandas as pd
 df_movies = pd.DataFrame(movies)
 print(df_movies)
 
-""" Zipping a matrix transposes it """ 
+""" Un-Zipping a matrix transposes it """ 
 mat = [[1,2,3], [4,5,6]]
 trans_mat = zip(*mat)
 print(tuple(trans_mat))
+
+mat = [[1,2,3]]
+trans_mat = zip(*mat)
+print(tuple(trans_mat))
+
+a = ['a1s', 'a2t', 'a3u']
+r = zip(*a) # UNZIP
+print(tuple(r))
+
+list_1 = ['C', 'C++', 'Python', 'Java']
+list_zip = zip(list_1) # Passs a SINGLE ITERABLE - list separation
+print(tuple(list_zip))
