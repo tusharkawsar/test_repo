@@ -38,8 +38,12 @@ values = [['Forest Gump','Goddfellas','Se7en'],
           ['A','B','C']]
 movies = dict(zip(keys,values)) # Without zip, a Dict will not be created from list of Lists
 # However, if the list contained tuples, Dict would be created
-newdict = dict([(1,2),(3,4)])
+newdict = dict([(1,2),(3,4)]) 
 print(newdict)
+# Even three tuples can be made intop a Dict using Zip
+newdict = dict([(1,2),(3,4),(5,6)]) 
+print(newdict)
+
 print(movies)
 for item in movies.items(): # Both print styles work with Dictionary
     print (item)
@@ -47,14 +51,7 @@ import pandas as pd
 df_movies = pd.DataFrame(movies)
 print(df_movies)
 
-
-
-
-
-
-
-
-
-
-
-
+""" Zipping a matrix transposes it """ 
+mat = [[1,2,3], [4,5,6]]
+trans_mat = zip(*mat)
+print(tuple(trans_mat))

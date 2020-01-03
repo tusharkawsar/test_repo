@@ -31,7 +31,7 @@ words.sort(key=lambda s: len(s))
 #print(words)
 words.sort(key=lambda s: s.count('a')+s.count('b')+s.count('c'))
 #print(words)
-https://github.com/donnemartin/system-design-primer
+
 
 """ MAP - how items with same index in iterables will be mapped to a new object """
 nums = [i for i in range(1,6)]
@@ -52,8 +52,20 @@ nums = [i for i in range(-3,4)]
 obj = filter(lambda x: True if x>0 else False, nums) # I could just return x>0
 print(list(obj)) # Similar properties as MAP OBJECT
 
-""" REDUCE """
-from functools import reduce 
+""" REDUCE - Takes every couple items and reduces to one. Applies to new and the next items """
+from functools import reduce # The function needs TWO parameters
+nums = [i for i in range(1,6)]
+red = reduce(lambda x,y:x+y, nums)
+print(red)
+
+# Smallest number from a list
+import random
+nums = [random.randint(1,101) for i in range(1,6)]
+print("Random list "+str(nums)) # Can only use PLUS if all params are STRING, otherwise COMMA
+red = reduce(lambda x,y: x if x<y else y, nums)
+print(red)
+
+
 
 
 
