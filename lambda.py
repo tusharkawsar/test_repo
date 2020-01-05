@@ -82,8 +82,16 @@ print(result)
 For example, list(map(lambda x: len(x), args)) can be re-written as 
 [len(x) for x in args]. """
 
+import re
+string = "dsa dasd askdl maskld mnaslkdmn askldn awsjkldmnlasjknd asjk,mnd"
+vowels = 'aeiouAEIOU'
+fstring = filter(lambda x: x not in vowels, string) # Filter out vowels
+print(''.join(fstring))
 
-
+# Reverse a string using reduce()
+string = 'DataCamp'
+inv_string = reduce(lambda x,y: y+x, string)
+print('Inverted string = ' + inv_string)
 
 
 
