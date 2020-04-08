@@ -32,6 +32,7 @@ my_set = my_set.difference({55})
 #print(my_set)
 
 """ DICTIONARY - key is immutable, lists cannot be keys """
+""" Example of Key - String, boolean, int, float"""
 fruits = {'apple':10, 'orange':6, 'banana':9}
 fruits = dict([('apple',1), ('orange',2), ('banana',3)])
 fruits['apple'] = 10
@@ -43,6 +44,19 @@ fruits.values()
 list(fruits.values())
 fruits.popitem()
 print(fruits)
+
+# Will only store the last value for duplicate keys
+fruits = {'apple':10, 'orange':6, 'banana':8, 'banana':9}
+fruits['random_fruit'] = 100 # Add new item to DICT
+del(fruits['random_fruit']) # Delete item from DICT
+
+# DICT inside DICT
+europe = {'france':{'pop':10, 'cap':'paris'},
+          'germany':{'pop1':20, 'cap':'berlin'} }
+new_country = {'pop':30, 'cap':'rome'}
+europe['italy'] = new_country
+# print(europe)
+
 
 """ OPERATIONS """
 len(my_list)
