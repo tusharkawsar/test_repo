@@ -15,7 +15,9 @@ my_dict = {'country': ['brazil', 'russia', 'india', 'china', 'south africa'],
         'pop':[10,20,30,40,50] }
 
 brics_df = pd.DataFrame(my_dict)
-brics_df.index = ['br', 'ru', 'in', 'ch', 'sa']# This index is NOT a function, as in list
+brics_df.index = ['br', 'ru', 'in', 'ch', 'sa'] # This index is NOT 
+# a function, as in list. This index is ROW INDEX.
+
 # print(brics_df)
 # print(brics_df.iloc[0])
 # print(brics_df.loc['ch'])
@@ -27,4 +29,71 @@ print('============================')
 # brics_df = pd.read_csv('data/brics.csv') # This will say that the 
 # first row header is Unnamed:0
 brics_df = pd.read_csv('data/brics.csv', index_col=0)
-print(brics_df)
+
+''' Q. index versus index_col for pandas DataFrame?
+A. Basically, to set up rows/observations with labels, we do df.index
+To set up columns/variables with labels, we pass index_col while 
+reading from csv '''
+
+# print(brics_df)
+
+
+''' Accessing Data '''
+
+# Strip whitespace from column headers
+col = list(brics_df.columns)
+col_no_ws = [x.strip() for x in col]
+brics_df.columns = col_no_ws
+# print(brics_df.columns) 
+
+# Select column
+print(brics_df["capital"]) # The type is object
+print(type(brics_df['capital'])) # The type is PD Series
+# A series is a 1D labelled array. Multiple series make up a DF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
