@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from clearmodule import clear
+
+clear()
+
 """ ROW == observation; COLUMN = variable 
 2D numpy ararys cannot handle different data types 
 Pandas is built on Numpy
@@ -46,15 +50,34 @@ col_no_ws = [x.strip() for x in col]
 brics_df.columns = col_no_ws
 # print(brics_df.columns) 
 
-# Select column
+# Select entire column
 print(brics_df["capital"]) # The type is object
 print(type(brics_df['capital'])) # The type is PD Series
 # A series is a 1D labelled array. Multiple series make up a DF
 
+# Double square brackets return a DF object, NOT series
+# Basically putting together a list of Series
+# Also prints column header(s)
+print(brics_df[['capital']])
+print(type(brics_df[['capital']]))
+
+# Single square bracket cannot print 2 columns at once.
+# Double square brackets can
+print(brics_df[['country', 'capital']])
 
 
+# Selecting entire row
+print(brics_df[1:4])
 
 
+''' Square brackets have limited functionality.
+Ideally, we want something similar to Numpy 2D arrays. 
+LOC -> label-based
+ILOC -> position-based '''
+
+# Print Russia row
+print(brics_df[1:2])
+print('hello')
 
 
 
