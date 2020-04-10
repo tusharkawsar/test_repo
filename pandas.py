@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from clearmodule import clear
-
-clear()
+# clear()
 
 """ ROW == observation; COLUMN = variable 
 2D numpy ararys cannot handle different data types 
@@ -75,48 +74,77 @@ Ideally, we want something similar to Numpy 2D arrays.
 LOC -> label-based
 ILOC -> position-based '''
 
-# Print Russia row
-print(brics_df[1:2])
-print('hello')
+# Print Russia row - 4 ways, Different Object Types and Print Types
+# 1) Returns a DF, Prints horizontally
+print(brics_df[1:2]) 
+print(type(brics_df[1:2])) 
+# 2) Returns a DF, Prints horizontally
+print(brics_df[brics_df.index == 'ru'])
+print(type(brics_df[brics_df.index == 'ru']))
+# 3) Returns a Series, Prints vertically
+print(brics_df.loc['ru'])
+print(type(brics_df.loc['ru']))
+# 4) Returns a DF, Prints horizontally
+print(brics_df.loc[['ru']])
+print(type(brics_df.loc[['ru']]))
 
+# Select multiple rows - LOC w/ single brackets CANNOT DO THIS
+print(brics_df.loc[['ru', 'ch']])
+# print(brics_df.loc['ru', 'ch']) -> KeyError
 
+''' Select both row and column - NEED TO USE LOC
+To select multiple row/column, use DOUBLE BRACKETS'''
+print(brics_df.loc['ru']['capital']) # Again, CANNOT select MULTIPLE 
+print(type(brics_df.loc['ru']['capital']))
+print(brics_df.loc[['ru', 'ch'], ['capital', 'country']])
+print(type(brics_df.loc[['ru', 'ch'], ['capital', 'country']]))
+# First one returns a string, second one returns a DF
 
+# Select only columns - 4 ways
+print(brics_df['capital'])
+print(type(brics_df['capital'])) # Series, NO multiple
+print(brics_df[:]['capital'])
+print(type(brics_df[:]['capital'])) # Series, NO multiple
+print(brics_df[['capital', 'country']])
+print(type(brics_df[['capital', 'country']])) # DF
+print(brics_df.loc[:, ['capital', 'country']])
+print(type(brics_df.loc[:, ['capital', 'country']])) # DF
 
+''' NumPy vs LOC-> LOC uses row labels, not row indexes 
+Use ILOC if you want to select rows based on index'''
 
+# Rows
+print(brics_df.loc[['br'], :])
+print(brics_df.iloc[[1], :]) # Same result
+print(type(brics_df.iloc[[1], :])) # DF
+print(brics_df.iloc[[1,2,3], :])
+print(brics_df.iloc[range(1,4,1), :])
 
+# If want to use COLON, don't put inside a square bracket of its own
+print(brics_df.iloc[1:3, :]) 
 
+# print(brics_df.iloc[[1:3], :]) -> SyntaxError
 
+# Columns
+print(brics_df.iloc[:, [1,2]])
+print(brics_df.iloc[:, 1:3]) # Same
 
+''' Even to print a single value, I should use LOC or ILOC.
+Basically, I should almost never use simple square brackets without LOC/ILOC.
+LOC without double brackets prints SERIES.
+You cannot print a column with LOC without mentioning ROW. 
 
+'''
 
+# Using LOC with single and double brackets
+print(brics_df.loc['ru']) # row Series
+print(brics_df['capital']) # column Series - but WITHOUT LOC
+print(brics_df.loc[['ru'], :]) # row DF
+print(brics_df.loc[:, ['capital']]) # column DF
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# The following two prints different values
+print(brics_df.loc[['br'], ['capital']]) # DF
+print(brics_df.loc['br']['capital']) # A single value
 
 
 
