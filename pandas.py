@@ -147,4 +147,3 @@ print(brics_df.loc[['br'], ['capital']]) # DF
 print(brics_df.loc['br']['capital']) # A single value
 
 
-
