@@ -146,4 +146,23 @@ print(brics_df.loc[:, ['capital']]) # column DF
 print(brics_df.loc[['br'], ['capital']]) # DF
 print(brics_df.loc['br']['capital']) # A single value
 
+# 3 Equivalent Ideas to get column Series
+print(brics_df['area'])
+print(brics_df.loc[:, 'area'])
+print(brics_df.iloc[:, 2])
+
+# 3 Equivalent Ideas to get row Series
+print(brics_df[brics_df.index=='ch'])
+print(brics_df.loc['ch', :])
+print(brics_df.iloc[3, :])
+
+
+# Convert data format in Column
+# Method 1
+brics_df.loc[:, 'pop'] = brics_df.loc[:, 'pop'].astype(float)
+# Method 2
+brics_df.loc[:, 'area'] = pd.to_numeric(brics_df.loc[:, 'area'], errors='coerce')
+print(brics_df.info())    
+print(brics_df)
+
 
