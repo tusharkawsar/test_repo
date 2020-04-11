@@ -22,7 +22,9 @@ print(type(is_huge))
 
 ''' Utilizing Boolean Series to Subset Pandas Dataset 
 We can just create a list/series/nparray of booleans and 
-use it as a knife to cut through original DF'''
+use it as a knife to cut through original DF
+Do not use double brackets, use single to make bool Series
+If a column is already boolean, that can be directly used: df[bool_col]'''
 
 print(brics_df[is_huge])
 
@@ -53,6 +55,36 @@ print(brics_df[(brics_df.loc[:, 'area'] >= 2) &
 
 
 print("=================")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
