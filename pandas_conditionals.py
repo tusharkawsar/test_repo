@@ -9,7 +9,9 @@ import pandas as pd
 import numpy as np
 
 brics_df = pd.read_csv('data/brics.csv', index_col=0)
-brics_df.columns = [x.strip() for x in list(brics_df.columns)]
+# brics_df.columns = [x.strip() for x in list(brics_df.columns)]
+brics_df.columns = brics_df.columns.str.strip() # -> BETTER
+
 
 X = brics_df.loc[:, ['area']].loc[brics_df['area'] > 3].values
 X = list(brics_df.loc[brics_df['area'] > 3]['country'])
@@ -44,17 +46,22 @@ criteria_all = criteria_1 & criteria_2
 print(brics_df[criteria_all])
 
 # 3 Equivalent ways of doing logical AND
-print(brics_df[brics_df.loc[:, 'area'].between(2,4)]) # 1)
+print(brics_df[brics_df.loc[:, 'area'].between(2,4)]) # (1)
 print(brics_df[np.logical_and(brics_df.loc[:, 'area'] >= 2, 
-                              brics_df.loc[:, 'area'] <=4)]) # 2)
+                              brics_df.loc[:, 'area'] <=4)]) # (2)
 # In the following, very important to wrap inner boolean in ()'s
 # to maintain operator precedence. Even better to do it outside 
 # like criteria_1
 print(brics_df[(brics_df.loc[:, 'area'] >= 2) & 
-               (brics_df.loc[:, 'area'] <= 4)]) # 3) 
+               (brics_df.loc[:, 'area'] <= 4)]) # (3) 
 
 
 print("=================")
+brics_df['country'] = brics_df['country'].str.strip() # Remove space before countryname
+# X = brics_df.loc['ru', 'country']
+X = list(brics_df.loc[:, 'country'])
+print(type(X))
+print(X)
 
 
 

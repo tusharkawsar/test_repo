@@ -41,17 +41,18 @@ reading from csv '''
 # print(brics_df)
 
 
-''' Accessing Data '''
-
 # Strip whitespace from column headers
 col = list(brics_df.columns)
 col_no_ws = [x.strip() for x in col]
 brics_df.columns = col_no_ws
 # print(brics_df.columns) 
 
+
+''' Accessing Data '''
+
 # Select entire column
 print(brics_df["capital"]) # The type is object
-print(type(brics_df['capital'])) # The type is PD Series
+print(type(brics_df["capital"])) # The type is PD Series
 # A series is a 1D labelled array. Multiple series make up a DF
 
 # Double square brackets return a DF object, NOT series
@@ -64,9 +65,8 @@ print(type(brics_df[['capital']]))
 # Double square brackets can
 print(brics_df[['country', 'capital']])
 
-
 # Selecting entire row
-print(brics_df[1:4])
+print(brics_df[1:4]) # brics_df[1] -> KeyError
 
 
 ''' Square brackets have limited functionality.
@@ -80,7 +80,7 @@ print(brics_df[1:2])
 print(type(brics_df[1:2])) 
 # 2) Returns a DF, Prints horizontally
 print(brics_df[brics_df.index == 'ru'])
-print(type(brics_df[brics_df.index == 'ru']))
+print(type(brics_df.loc[brics_df.index == 'ru']), "==============")
 # 3) Returns a Series, Prints vertically
 print(brics_df.loc['ru'])
 print(type(brics_df.loc['ru']))
@@ -165,4 +165,20 @@ brics_df.loc[:, 'area'] = pd.to_numeric(brics_df.loc[:, 'area'], errors='coerce'
 print(brics_df.info())    
 print(brics_df)
 
+# Check Null Values in each column
+print(brics_df.isnull().sum())
+print(brics_df.isnull().sum().sum())
 
+
+print(brics_df.groupby('country').mean())
+print(brics_df.groupby('country').var())
+
+
+# Generating random data
+from sklearn.datasets import make_blobs
+X, y = make_blobs(n_samples=10, centers=5, n_features=3,
+               random_state=0)
+print(X.shape)
+print(X)
+print(y)
+print(X[y == 0])

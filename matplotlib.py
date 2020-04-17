@@ -75,6 +75,7 @@ plt.grid(True) # Grids are acc to the displayed values on axes
 
 from gapminder import gapminder
 print(gapminder.loc[gapminder['country']=='Bangladesh'])
+# Same as gapminder.loc['Bangladesh']
 
 
 
