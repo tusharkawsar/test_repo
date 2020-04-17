@@ -61,7 +61,7 @@ print(type(brics_df["capital"])) # The type is PD Series
 print(brics_df[['capital']])
 print(type(brics_df[['capital']]))
 
-# Single square bracket cannot print 2 columns at once.
+# Single square bracket cannot print 2 columns at once. *****
 # Double square brackets can
 print(brics_df[['country', 'capital']])
 
@@ -80,7 +80,8 @@ print(brics_df[1:2])
 print(type(brics_df[1:2])) 
 # 2) Returns a DF, Prints horizontally
 print(brics_df[brics_df.index == 'ru'])
-print(type(brics_df.loc[brics_df.index == 'ru']), "==============")
+print(brics_df.loc[brics_df.index == 'ru']) # Same as above
+print(type(brics_df[brics_df.index == 'ru']))
 # 3) Returns a Series, Prints vertically
 print(brics_df.loc['ru'])
 print(type(brics_df.loc['ru']))
@@ -88,12 +89,14 @@ print(type(brics_df.loc['ru']))
 print(brics_df.loc[['ru']])
 print(type(brics_df.loc[['ru']]))
 
-# Select multiple rows - LOC w/ single brackets CANNOT DO THIS
+# Select multiple rows - LOC w/ single brackets CANNOT DO THIS *****
 print(brics_df.loc[['ru', 'ch']])
 # print(brics_df.loc['ru', 'ch']) -> KeyError
 
+
 ''' Select both row and column - NEED TO USE LOC
 To select multiple row/column, use DOUBLE BRACKETS'''
+
 print(brics_df.loc['ru']['capital']) # Again, CANNOT select MULTIPLE 
 print(type(brics_df.loc['ru']['capital']))
 print(brics_df.loc[['ru', 'ch'], ['capital', 'country']])
