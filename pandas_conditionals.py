@@ -16,17 +16,18 @@ brics_df.columns = brics_df.columns.str.strip() # -> BETTER
 X = brics_df.loc[:, ['area']].loc[brics_df['area'] > 3].values
 X = list(brics_df.loc[brics_df['area'] > 3]['country'])
 X = brics_df.loc[brics_df['area'] > 3]
-print(X)
+print(X) # All 3 are equivalent
 
 is_huge = brics_df.loc[:, 'area'] > 3
 print('================', is_huge)
 print(type(is_huge))
 
-''' Utilizing Boolean Series to Subset Pandas Dataset 
+
+''' Utilizing Boolean Series to Subset Pandas Dataset: 
 We can just create a list/series/nparray of booleans and 
 use it as a knife to cut through original DF
-Do not use double brackets, use single to make bool Series
-If a column is already boolean, that can be directly used: df[bool_col]'''
+- Do not use double brackets, use single to make bool Series
+- If a column is already boolean, that can be directly used: df[df[bool_col]] '''
 
 print(brics_df[is_huge])
 
