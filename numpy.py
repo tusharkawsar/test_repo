@@ -34,10 +34,3 @@ for val in measurement:
 for val in np.nditer(measurement):
     print(val) # prints all individual items
     pass
-
-
-
-
-
-
-s
