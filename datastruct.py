@@ -58,6 +58,14 @@ europe['italy'] = new_country
 # print(europe)
 
 
+""" Dictionary Loops """
+for item in europe.items():
+    print(item) # This is a TUPLE
+for key, value in europe.items():
+    print(key, value) # Key-Value pair separated
+
+
+
 """ OPERATIONS """
 len(my_list)
 len(my_tuple)
