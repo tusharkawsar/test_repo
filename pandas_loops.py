@@ -27,7 +27,8 @@ for label, row in brics_df.iterrows():
 
 # 2 ways to ADD NEW COLUMN
 # 1) One-liner list comprehension
-brics_df['len_listcompr'] = [len(row['country'].strip()) for label, row in brics_df.iterrows()]
+brics_df['len_listcompr'] = [len(row['country'].strip()) 
+                             for label, row in brics_df.iterrows()]
 
 ''' For the above line. we do not need to use row['country'].str 
 because we are only accessing individual elements from a row 
