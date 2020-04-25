@@ -78,10 +78,33 @@ print(gapminder.loc[gapminder['country']=='Bangladesh'])
 # Same as gapminder.loc['Bangladesh']
 
 
+plt.clf()
+
+x, y = range(10), range(10)
+fig, ax = plt.subplots(2, 2)
+ax[0,0].plot(x, y, color='r') # NO assignment and NO plt.plot
+ax[0,1].plot(x, y)
+ax[1,0].plot(x, y)
+ax[1,1].plot(x, y)
+plt.show()
 
 
+plt.clf()
+# fig = plt.figure()
 
+plt.subplot(2, 2, 1)
+plt.plot(x, y)
 
+plt.subplot(2, 2, 2)
+plt.plot(x, y)
+
+plt.subplot(2, 2, 3)
+plt.plot(x, y)
+
+plt.subplot(2, 2, 4)
+plt.plot(x, y)
+
+plt.show()
 
 
 
