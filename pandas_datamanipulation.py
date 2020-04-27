@@ -7,6 +7,7 @@ https://learn.datacamp.com/courses/data-manipulation-with-pandas
 """
 
 import pandas as pd
+import numpy as np
 import pickle
 from IPython.display import display, HTML
 pd.set_option("display.max_columns", 10)
@@ -16,6 +17,7 @@ path_homeless = 'data/pandas_datamanipulation/homeless_data.pkl'
 path_walmart = 'data/pandas_datamanipulation/walmart_sales.pkl'
 
 homelessness = pickle.load(open(path_homeless, 'rb')) # Pickle returns a DF
+sales = pickle.load(open(path_walmart, 'rb'))
 
 
 ''' EDA '''
@@ -76,6 +78,45 @@ x = homelessness[homelessness['individuals'] > 10000].sort_values('family_member
 # print(x)
 
 
+''' Summary Statistics '''
+# 1) Basic/Individual Column
+# print(homelessness['individuals'].mean())
+# print(homelessness['individuals'].median())
+# print(homelessness['individuals'].mode()) # NOT SURE what happens
+# print(homelessness['individuals'].min()) # Can also do this on DATE column
+# print(homelessness['individuals'].var())
+# print(homelessness['individuals'].std())
+# print(homelessness['individuals'].sum())
+# print(homelessness['individuals'].quantile(0.6)) # need PARAMETER
+# print(homelessness[['individuals', 'state_pop']].mean()) # MULTIPLE columns
+
+# 2) Cumulative
+# print(homelessness['individuals'].cumsum()) # First, First+Second, First+Second+Third ...
+# print(homelessness['individuals'].cumprod())
+# print(homelessness['individuals'].cummax(axis=0))
+# print(homelessness[['individuals', 'state_pop']].cummax(axis=0)) # Each cell is populated with the maximum value seen so far.
+
+# 3) Aggregate
+# print(homelessness['individuals'].agg(np.mean)) # ONLY MEAN does not work, because mean is not a function but a method
+# print(homelessness[['individuals', 'state_pop']].agg(np.mean)) # multiple COLUMNS
+# print(homelessness['individuals'].agg([np.mean, np.median])) # multiple FUNCTIONS
+# print(homelessness[['individuals', 'state_pop']].agg([np.mean, np.median])) # Output is 2D
+
+# print(sales['weekly_sales'].mean(), sales['weekly_sales'].median()) # Relation between median and mean can tell us something. 
+# E.g. if median is much lower than mean, this means there are a handful of very high sales that is dragging mean forward
+# print(sales['date'].max(), sales['date'].min()) # The date range
+
+
+''' Counting '''
+# print(sales)
+# print(sales.drop_duplicates(subset="type")) # TEMPORARY change
+# print(sales.drop_duplicates(subset="store")[['store', 'type', 'department']])
+
+# Only drops DUPLICATE DEPARTMENTS-STORE pairs, then prints bottom 30 in sorted fashion
+# print(sales.drop_duplicates(subset=['store', 'department']).tail(30).sort_values(['store','department'], ascending=[True, True])[['store', 'type', 'department']]) 
+unique_dept = sales.drop_duplicates(subset=['store', 'department'])
+print(unique_dept['department'].value_counts().reset_index().sort_values('index')) # value_counts() does NOT WORK on df, only on column
+''' reset_index() stores the previous index into a new column called 'index' '''
 
 
 
@@ -84,6 +125,23 @@ x = homelessness[homelessness['individuals'] > 10000].sort_values('family_member
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+# print(sales)
+# print(sales.groupby('type').count()[['store']])
+# print(sales.groupby('store').count())
+
+# df.drop
 
 
 
