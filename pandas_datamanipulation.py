@@ -9,6 +9,7 @@ https://learn.datacamp.com/courses/data-manipulation-with-pandas
 import pandas as pd
 import pickle
 from IPython.display import display, HTML
+pd.set_option("display.max_columns", 10)
 
 path_avoplotto = 'data/pandas_datamanipulation/avoplotto.pkl'
 path_homeless = 'data/pandas_datamanipulation/homeless_data.pkl'
@@ -57,13 +58,22 @@ For row, write boolean condition with DF name, meaning DF[DF['col'] > 100]. '''
 # 2.1) Multiple row conditions
 # print(homelessness[(homelessness['region']=='Mountain') &   # Parenthesis MANDATORY
 #                     (homelessness['individuals']>5000)])
-# 2.2) Checking if value in a column matches a set of values
+# 2.2) Subset row by CATEGORICAL VARIABLE: Checking if value in a column matches a set of values
 # print(homelessness[homelessness['state'].isin(['California', 'Florida'])])
 # Below does not properly work for double columns
 # print(homelessness[homelessness['state'].isin(['California', 'Florida'])])
 # 3) BOTH row and column =========
 # print(homelessness.loc[homelessness['state'].str.lower() == 'florida', 
                         # ['region', 'state']]) # BOTH row and column
+
+
+''' Create New Column '''
+homelessness['state-region'] = homelessness['state'].values + ' in ' + homelessness['region']
+# del homelessness['individuals']
+# del homelessness['family_members']
+# display(homelessness.head())
+x = homelessness[homelessness['individuals'] > 10000].sort_values('family_members', ascending=True).loc[:, ['state-region', 'individuals', 'state_pop']]
+# print(x)
 
 
 
