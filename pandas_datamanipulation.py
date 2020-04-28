@@ -9,8 +9,9 @@ https://learn.datacamp.com/courses/data-manipulation-with-pandas
 import pandas as pd
 import numpy as np
 import pickle
+from scipy import stats
 from IPython.display import display, HTML
-pd.set_option("display.max_columns", 10)
+pd.set_option("display.max_columns", 15)
 
 path_avoplotto = 'data/pandas_datamanipulation/avoplotto.pkl'
 path_homeless = 'data/pandas_datamanipulation/homeless_data.pkl'
@@ -70,7 +71,7 @@ For row, write boolean condition with DF name, meaning DF[DF['col'] > 100]. '''
 
 
 ''' Create New Column '''
-homelessness['state-region'] = homelessness['state'].values + ' in ' + homelessness['region']
+# homelessness['state-region'] = homelessness['state'].values + ' in ' + homelessness['region']
 # del homelessness['individuals']
 # del homelessness['family_members']
 # display(homelessness.head())
@@ -78,7 +79,7 @@ x = homelessness[homelessness['individuals'] > 10000].sort_values('family_member
 # print(x)
 
 
-''' Summary Statistics '''
+''' Summary Statistics (no group, all rows) '''
 # 1) Basic/Individual Column
 # print(homelessness['individuals'].mean())
 # print(homelessness['individuals'].median())
@@ -121,6 +122,57 @@ unique_dept = sales.drop_duplicates(subset=['store', 'department'])
 # Notice the parameters above: SORT, not sorted
 # print(unique_dept['department'].value_counts().reset_index().sort_values('index')) # If we want to sort based on index
 ''' reset_index() stores the previous index into a new column called 'index' '''
+
+
+# Q. Count the number of stores of each store type.
+# Count the proportion of stores of each store type.
+# Count the number of different department numbers, sorting the counts in descending order.
+# Count the proportion of different department numbers, sorting the proportions in descending order.
+stores = sales.drop_duplicates(subset=['store', 'type']) # No duplicate stores
+departments = sales.drop_duplicates(subset=['store', 'department']) # No duplicate dept in a store
+store_count = stores['store'].value_counts(sort=True) # How many stores
+store_prop = stores['store'].value_counts(normalize=True)
+dept_count = departments['department'].value_counts(normalize=True)
+dept_prop = departments['department'].value_counts(normalize=True, sort=True) # How many depts across stores
+
+
+
+''' Grouped Summary Statistics '''
+# Only considers a subset of rows in a column
+# print(homelessness[homelessness['region']=='Mountain']['individuals'].mean())
+# print(sales[sales['department']==10]['weekly_sales'].mean())
+# Can check if one store has better weekly sales than others
+# print(sales[sales['store']==20]['weekly_sales'].mean())
+
+# Q. Calculate the total weekly sales over the whole dataset.
+# Subset for type "A" stores, and calculate their total weekly sales.
+# Do the same for type "B" and type "C" stores.
+# Combine the A/B/C results into a list, and divide by overall sales to get the proportion of sales by type.
+sales_a = sales[sales['type']=='A']['weekly_sales'].sum()
+sales_b = sales[sales['type']=='B']['weekly_sales'].sum()
+sales_c = sales[sales['type']=='C']['weekly_sales'].sum()
+# print([sales_a, sales_b, sales_c]/sales['weekly_sales'].sum())
+
+
+# The same can be easily achieved without specifying each store number using GROUPBY
+# print(sales.groupby('store')['weekly_sales']) # Only returns a groupby object, need to specify statistical method
+# print(sales.groupby('store')['weekly_sales'].mean())
+# print(sales.groupby('store')['is_holiday'].mean()) # provides a number for int, float, and BOOLEAN!!
+# print(sales.groupby('store').mean()) # Provides group stats summary for all columns if column not specified
+# print(sales.groupby('store').agg([min, max, sum, np.mean, np.median, stats.mode]))
+# Cannot specify a column in the end, may specify it right after groupby
+# sales.groupby('store).mean()['date'] -> INVALID SYNTAX
+# print(sales.groupby(['store', 'department']).agg([min]).tail(20)) # groupny on multiple columns
+
+# Q. Group sales by "type", take the sum of "weekly_sales", and store as sales_by_type.
+# Calculate the proportion of sales at each store type by dividing by the sum of sales_by_type. Assign to sales_propn_by_type.
+sales_by_type = sales.groupby('type')['weekly_sales'].sum()
+sales_prop_by_type = sales_by_type/sum(sales_by_type)
+# print(sum(sales_by_type))
+
+
+
+
 
 
 
