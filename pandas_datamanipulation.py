@@ -114,9 +114,14 @@ x = homelessness[homelessness['individuals'] > 10000].sort_values('family_member
 
 # Only drops DUPLICATE DEPARTMENTS-STORE pairs, then prints bottom 30 in sorted fashion
 # print(sales.drop_duplicates(subset=['store', 'department']).tail(30).sort_values(['store','department'], ascending=[True, True])[['store', 'type', 'department']]) 
+
+# How many different departments in all stores?
 unique_dept = sales.drop_duplicates(subset=['store', 'department'])
-print(unique_dept['department'].value_counts().reset_index().sort_values('index')) # value_counts() does NOT WORK on df, only on column
+# print(unique_dept['department'].value_counts(sort=True, normalize=True)) # value_counts() does NOT WORK on df, only on column
+# Notice the parameters above: SORT, not sorted
+# print(unique_dept['department'].value_counts().reset_index().sort_values('index')) # If we want to sort based on index
 ''' reset_index() stores the previous index into a new column called 'index' '''
+
 
 
 
