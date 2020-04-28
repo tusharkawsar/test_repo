@@ -171,8 +171,16 @@ sales_prop_by_type = sales_by_type/sum(sales_by_type)
 # print(sum(sales_by_type))
 
 
-
-
+''' Pivot Tables '''
+print(sales.groupby('type')['store'].mean())
+print(sales.pivot_table(index='type', values='store')) # Same as above, default is mean()
+print(sales.pivot_table(index=['type','is_holiday'], values='store', aggfunc=np.sum))
+# Different look but same result as two indexes below
+print(sales.pivot_table(index='type', columns='department', values='store')) # columns contain the secondary index
+print(sales.pivot_table(index='type', values='is_holiday', columns='store', aggfunc=np.min)) # lots of NaN values
+# Fills NaN with ZERO
+print(sales.pivot_table(index='type', values='is_holiday', columns='store', fill_value=0, aggfunc=np.min))
+print(sales.pivot_table(index='type', values='weekly_sales', margins=True, columns='is_holiday', aggfunc=[np.sum, np.mean])) # Last row & column have summary
 
 
 
