@@ -20,7 +20,7 @@ path_walmart = 'data/pandas_datamanipulation/walmart_sales.pkl'
 
 homelessness = pickle.load(open(path_homeless, 'rb')) # Pickle returns a DF
 sales = pickle.load(open(path_walmart, 'rb'))
-temperatures = pickle.load(open(path_avoplotto, 'rb'))
+avocados = pickle.load(open(path_avoplotto, 'rb'))
 
 
 ''' EDA '''
@@ -250,31 +250,39 @@ multi_index_sales3 = sales.set_index('date').sort_index()
 
 ''' Visualization '''
 # sales['type'].hist() # sales['store'].hist() or sales['date'].hist()
-# sales['store'].hist() # 2 histograms TOGETHER IN ONE GRAPH
 # sales['date'].hist()
 
 # x = sales.groupby('type')['weekly_sales'].mean() # AGG func in MANDATORY
 # print(x)
 # x.plot(kind='bar', title='The groupby argument is on X axis vertically')
+# sales.plot(x='type', y='unemployment', kind='bar') -> DOES NOT WORK
 
 # sales.plot(x='date', y='weekly_sales', kind='line', rot=45) # rot -> rotate xlabel
 
 # sales.plot(x='weekly_sales', y='store', kind='scatter')
-sales.plot(x='temperature', y='store', kind='bar')
-# print(5)
+
+# sales[sales['type']=='A']['weekly_sales'].hist(alpha=0.7)
+# sales[sales['type']=='B']['weekly_sales'].hist(alpha=0.7) # Only when 2 has index and column same, then they will show together
+# plt.legend(['type A', 'type B'])
 plt.show()
 
 
+''' Missing Values '''
+# Introduce missing values to avocados dataframe
+def introduce_missing_values(df, pct):
+    for col in df:
+        ori_rat = df[col].isna().mean()
+        if ori_rat >= pct: continue
+        add_miss_rat = (pct - ori_rat) / (1 - ori_rat)
+        vals_to_nan = df[col].dropna().sample(frac=add_miss_rat).index
+        df.loc[vals_to_nan, col] = np.NaN
+introduce_missing_values(avocados, 0.2)
+# print(avocados.isna().sum()) # How many missing values for each column
+# print(avocados.isna().any()) # Is there any missing value at all in a column?
+# avocados.isna().sum().plot(kind='bar')
+# print(avocados.shape)
+# avocados = avocados.dropna()
+# print(avocados.shape)
 
-
-
-
-
-
-
-
-
-
-
-
-
+# avocados.fillna(0) # Only fills numerical columns
+# print(avocados.head(10))
