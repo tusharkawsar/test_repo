@@ -9,9 +9,10 @@ https://learn.datacamp.com/courses/data-manipulation-with-pandas
 import pandas as pd
 import numpy as np
 import pickle
+import matplotlib.pyplot as plt
 from scipy import stats
 from IPython.display import display, HTML
-pd.set_option("display.max_columns", 15)
+pd.set_option("display.max_columns", 8)
 
 path_avoplotto = 'data/pandas_datamanipulation/avoplotto.pkl'
 path_homeless = 'data/pandas_datamanipulation/homeless_data.pkl'
@@ -19,6 +20,7 @@ path_walmart = 'data/pandas_datamanipulation/walmart_sales.pkl'
 
 homelessness = pickle.load(open(path_homeless, 'rb')) # Pickle returns a DF
 sales = pickle.load(open(path_walmart, 'rb'))
+temperatures = pickle.load(open(path_avoplotto, 'rb'))
 
 
 ''' EDA '''
@@ -171,44 +173,96 @@ sales_prop_by_type = sales_by_type/sum(sales_by_type)
 # print(sum(sales_by_type))
 
 
-''' Pivot Tables '''
-print(sales.groupby('type')['store'].mean())
-print(sales.pivot_table(index='type', values='store')) # Same as above, default is mean()
-print(sales.pivot_table(index=['type','is_holiday'], values='store', aggfunc=np.sum))
+''' Pivot Tables - df with sorted index '''
+# print(sales.groupby('type')['store'].mean())
+# print(sales.pivot_table(index='type', values='store')) # Same as above, default is mean()
+# print(sales.pivot_table(index=['type','is_holiday'], values='store', aggfunc=np.sum))
 # Different look but same result as two indexes below
-print(sales.pivot_table(index='type', columns='department', values='store')) # columns contain the secondary index
-print(sales.pivot_table(index='type', values='is_holiday', columns='store', aggfunc=np.min)) # lots of NaN values
+# print(sales.pivot_table(index='type', columns='department', values='store')) # columns contain the secondary index
+# print(sales.pivot_table(index='type', values='is_holiday', columns='store', aggfunc=np.min)) # lots of NaN values
 # Fills NaN with ZERO
-print(sales.pivot_table(index='type', values='is_holiday', columns='store', fill_value=0, aggfunc=np.min))
-print(sales.pivot_table(index='type', values='weekly_sales', margins=True, columns='is_holiday', aggfunc=[np.sum, np.mean])) # Last row & column have summary
+# print(sales.pivot_table(index='type', values='is_holiday', columns='store', fill_value=0, aggfunc=np.min))
+# print(sales.pivot_table(index='type', values='weekly_sales', margins=True, columns='is_holiday', aggfunc=[np.sum, np.mean])) # Last row & column have summary
 
+# Pivot Table Slicing
+sales_pivot = sales.pivot_table(index='type', values='weekly_sales', columns='store')
+# print(sales_pivot)
+# print(sales_pivot.loc['A':'B', 1:3])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Access only YEAR FROM DATE
+# sales['year'] = sales['date'].dt.year
 # print(sales)
-# print(sales.groupby('type').count()[['store']])
-# print(sales.groupby('store').count())
 
-# df.drop
+# Summary with Axis on Pivot Table - makes sense because EVERY COLUMNS HAS SAME DATA TYPE
+# print(sales_pivot.mean(axis=0)) # Taking each COLUMN at a time
+# print(sales_pivot.mean(axis=1)) # Taking each ROW at a time
+# print(sales_pivot.mean(axis='index')) # Same as AXIS=0
+# print(sales_pivot.mean(axis='columns')) # Same as AXIS=1
 
 
+''' Index - makes subsetting code cleaner - index may not be unique - left-aligned'''
+# print(sales.set_index('is_holiday')) # does NOT CHANGE the original df
+# print(sales.set_index('is_holiday').reset_index())
+# print(sales.set_index('is_holiday').reset_index(drop=True)) # GETS RID OF prev index column
+
+# Code EASIER after SETTIGN INDEX
+# print(sales[sales['unemployment'].isin([8.106, 8.3])])
+x = sales.set_index('unemployment')
+# print(x.loc[[8.106, 8.3], :])
+
+# Duplicate indexes
+# print(sales.set_index('department').loc[1])
+
+# Multi-level index - second index is nested inside the first one
+multi_index_sales = sales.set_index(['type', 'department'])
+# print(multi_index_sales)
+# print(multi_index_sales.loc[['A'], :])
+# print(multi_index_sales.loc[["A"]])
+# The command below needs pairing items each from one level of index
+# print(multi_index_sales.loc[[('A',98), ('B',9)]])
+# Sort will start from outer to inner, ascending
+# print(multi_index_sales.sort_index())
+# print(multi_index_sales.sort_index(level=['department','type'], ascending=[False,True]))
+
+''' Problems with indexes:
+    1) Index values are just data
+    2) Violated "tidy data" principle of data getting its own column
+'''
+multi_index_sales2 = sales.set_index(['type', 'store'])
+# print(multi_index_sales)
+multi_index_sales2 = multi_index_sales2.sort_index()
+# If index not sorted, SLICING WON'T WORK
+# print(multi_index_sales2.loc['A':'B']) # Final value INCLUDED
+# print(multi_index_sales2.loc[[('B',43), ('B',45)]]) # Tuples do not have colon inside
+# print(multi_index_sales2.loc[('B',43) : ('B',45)]) # using COLON needs single square brackets
+# print(multi_index_sales2.loc[:, 'department':'weekly_sales']) # COLUMN SLICING
+
+# Date slicing
+# print(sales[(sales["date"] >= "2010") & (sales["date"] < "2012")]) # Adjusts for month/day
+multi_index_sales3 = sales.set_index('date').sort_index()
+# print(multi_index_sales3)
+# print(multi_index_sales3.loc['2010-02-05':'2010-02-06'])
+# print(multi_index_sales3.loc['2010':'2010']) # PARTIAL dates slicing
+
+''' iloc - final value not included - row & column both needed '''
+# print(sales.iloc[1:3, 2:3])
+
+
+''' Visualization '''
+# sales['type'].hist() # sales['store'].hist() or sales['date'].hist()
+# sales['store'].hist() # 2 histograms TOGETHER IN ONE GRAPH
+# sales['date'].hist()
+
+# x = sales.groupby('type')['weekly_sales'].mean() # AGG func in MANDATORY
+# print(x)
+# x.plot(kind='bar', title='The groupby argument is on X axis vertically')
+
+# sales.plot(x='date', y='weekly_sales', kind='line', rot=45) # rot -> rotate xlabel
+
+# sales.plot(x='weekly_sales', y='store', kind='scatter')
+sales.plot(x='temperature', y='store', kind='bar')
+# print(5)
+plt.show()
 
 
 
